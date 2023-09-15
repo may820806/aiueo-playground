@@ -1,0 +1,64 @@
+.index-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.text-card {
+  width: 400px;
+  height: 400px;
+  margin: 30px 0;
+
+  h1 {
+    font-size: 80px;
+    text-align: center;
+  }
+
+  [class~="p-card-body"] {
+    padding: 2rem;
+  }
+
+  .input-group {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+
+    [class~="p-inputtext"] {
+      width: 70%;
+      margin-right: 8px;
+    }
+  }
+
+  [class~="p-card-footer"] {
+    text-align: center;
+    padding: 0;
+
+    button {
+      width: 180px;
+    }
+  }
+}
+
+.tip-invalid {
+  position: absolute;
+  left: 0;
+  bottom: -20px;
+  font-size: 14px;
+  color: red;
+}
+
+.result-group {
+  text-align: center;
+
+  span {
+    font-size: 20px;
+  }
+}
+
+.wrong-group {
+  margin-right: 8px;
+}
