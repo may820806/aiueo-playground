@@ -6,10 +6,12 @@ import 'primeicons/primeicons.css';
 import CustomToastAlert from '../components/CustomizedToastAlert';
 import { RecoilRoot } from 'recoil';
 import { ConfirmDialog } from 'primereact/confirmdialog';
+import Header from '@/components/Header';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
+      <Header />
       <CustomToastAlert />
       <ConfirmDialog />
       <Component {...pageProps} />

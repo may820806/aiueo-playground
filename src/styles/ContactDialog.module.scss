@@ -1,0 +1,22 @@
+.contact-dialog {
+  width: 50vw;
+}
+
+@media screen and (max-width: 768px) {
+  .contact-dialog {
+    width: 90vw;
+  }
+}
+
+.input-group {
+  margin-bottom: 8px;
+}
+
+.contact-dialog-footer {
+  margin-top: 20px;
+  float: right;
+
+  > :first-child {
+    margin-right: 8px;
+  }
+}

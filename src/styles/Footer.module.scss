@@ -1,0 +1,11 @@
+.page-footer {
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+
+  button {
+    margin: 0 8px 8px 0;
+  }
+}
