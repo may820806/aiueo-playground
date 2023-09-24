@@ -20,7 +20,7 @@ const ReplyDialog: React.FC<Props> = ({visible, onHideDialog}) => {
 
   const ReplyDialogHeader = () => {
     return (
-      <h3>Contact me!</h3>
+      <h2>Contact me!</h2>
     )
   }
   
@@ -117,7 +117,7 @@ const ReplyDialog: React.FC<Props> = ({visible, onHideDialog}) => {
             <InputTextarea
               {...formik.getFieldProps('message')}
               style={{width: '100%', height: '200px'}}
-              placeholder={'What would you like to tell me?'}
+              placeholder={'What would you like to tell me? any bugs? any suggestion?'}
               autoResize
             />
             <div>{getFormErrorMessage('message')}</div>

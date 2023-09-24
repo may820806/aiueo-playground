@@ -11,7 +11,7 @@ const useGetHiragana = (type: 'hiragana' | 'katakana' | 'mix' ) => {
   console.log('useGetHiragana');
   
   const [randomQuestion, setRandomQuestion] = useState<string>('');
-  // const [ans, setAns] = useState<string>('');
+  // const [ans, setAnsArr] = useState<string>('');
   let ans;
 
   const list = fiftyTone.map(i => Object.values(i)[toneTypeEnum[type]]);

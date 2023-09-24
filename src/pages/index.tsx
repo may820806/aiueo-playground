@@ -11,18 +11,19 @@ import { fiftyTone } from "../application/fiftyTone";
 import React from "react";
 import Footer from "@/components/Footer";
 import ContactDialog from "@/components/ContactDialog";
+import { IFiftyTone } from '../application/fiftyTone';
 
 export default function Home() {
   const dropdownOption = [
-    { name: "平假名(hiragana)", code: "hiragana" },
-    { name: "片假名(katakana)", code: "katakana" },
+    { name: "平仮名ひらがな(hiragana)", code: "hiragana" },
+    { name: "片仮名かたかな(katakana)", code: "katakana" },
     { name: "Mix", code: "mix" },
   ];
 
   const [toneType, setToneType] = useState<"hiragana" | "katakana" | "mix">(
     "hiragana"
   );
-  const [ans, setAns] = useState<string>("");
+  const [ansArr, setAnsArr] = useState<string[]>([]);
   const [inputAns, setInputAns] = useState<string>("");
   const [invalidTipShow, setInvalidTipShow] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
@@ -34,7 +35,6 @@ export default function Home() {
 
   const [isContactShow, setIsContactShow] = useState<boolean>(false);
 
-
   // const { getRandomQuestion, randomQuestion, ans } = useGetHiragana(toneType);
   enum toneTypeEnum {
     hiragana,
@@ -43,24 +43,55 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const list = fiftyTone.map((i) => Object.values(i)[toneTypeEnum[toneType]]);
-    console.log("list", list);
+    let list: string[] = [];
+    
+    if(toneType === 'mix') {
+      fiftyTone.forEach(i => {
+        list.push(i.hiragana);
+        list.push(i.katakana);
+      })
+    } else {
+      list = fiftyTone.map((i) => Object.values(i)[toneTypeEnum[toneType]]);
+    }
     setQuestionList(list);
+    setIsChecked(false);
     setCorrectAmount(0);
+    setInputAns('');
     setTotal(0);
-
-    // if(toneType === 'mix') {
-    // }
   }, [toneType]);
 
   useEffect(() => {
-    getRandomQuestion();
+    getRandomQuestion();    
   }, [questionList]);
 
   const getRandomQuestion = () => {
+    const pronounceArr = []
+
     const randomIndex = Math.floor(Math.random() * questionList?.length);
-    setRandomQuestion(questionList[randomIndex]);
-    setAns(fiftyTone[randomIndex].pronounce);
+    if(toneType === 'mix') {
+      const questionText = questionList[randomIndex];
+      console.log('questionText', questionText);
+      const target = fiftyTone.find((i: IFiftyTone) => { return (i.hiragana === questionText) || (i.katakana === questionText)})
+      if(target) {
+        pronounceArr.push(target.pronounce);
+        if(target.pronounce2) {
+          pronounceArr.push(target.pronounce2);
+        }
+        setAnsArr(pronounceArr)
+        setRandomQuestion(questionList[randomIndex]);
+      }
+    } else {
+      const questionText = questionList[randomIndex];
+      const target = fiftyTone.find((i: IFiftyTone) => i[toneType] === questionText)
+      if(target) {
+        pronounceArr.push(target.pronounce);
+        if(target.pronounce2) {
+          pronounceArr.push(target.pronounce2);
+        }
+        setRandomQuestion(questionList[randomIndex]);
+        setAnsArr(pronounceArr);
+      }
+    }
   };
 
   const onChangeType = (e: DropdownChangeEvent) => {
@@ -81,7 +112,7 @@ export default function Home() {
     }
     setInvalidTipShow(!inputAns);
     setIsChecked(true);
-    if (ans === inputAns) {
+    if (ansArr.includes(inputAns)) {
       setIsCorrect(true);
       setCorrectAmount((prev) => prev + 1);
     }
@@ -156,7 +187,7 @@ export default function Home() {
           isCorrect ? (
             <p>
               <i className="pi pi-check" style={{ color: "green" }} />
-              {ans}
+              {ansArr.join(', ')}
             </p>
           ) : (
             <div className={styles["result-group"]}>
@@ -166,7 +197,7 @@ export default function Home() {
               </span>
               <span>
                 <i className="pi pi-check" style={{ color: "green" }} />
-                {ans}
+                {ansArr.join(', ')}
               </span>
             </div>
           )
@@ -174,6 +205,10 @@ export default function Home() {
           ""
         )}
       </Card>
+      <p>
+        correct: {correctAmount}/{total}
+      </p>
+
 
       <ContactDialog
         visible={isContactShow}

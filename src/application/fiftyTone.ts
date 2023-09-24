@@ -1,4 +1,4 @@
-interface IFiftyTone {
+export interface IFiftyTone {
   hiragana: string;
   katakana: string;
   pronounce: string;
