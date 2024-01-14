@@ -9,7 +9,7 @@ const Footer: React.FC<Props> = ({onClickContact}) => {
   return (
     <footer className={styles['page-footer']}>
       2023 May Weng @ Taiwan
-      <Button label="contact me ◟(∗ ˊωˋ ∗)◞" onClick={(e) => onClickContact(e)} />
+      <Button label="contact me ◟(∗ ˊωˋ ∗)◞" onClick={(e) => onClickContact()} />
     </footer>
   )
 }

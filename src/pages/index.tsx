@@ -61,6 +61,7 @@ export default function Home() {
 
   useEffect(() => {
     getRandomQuestion();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionList]);
 
   const getRandomQuestion = () => {
