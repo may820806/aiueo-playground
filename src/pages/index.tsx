@@ -5,13 +5,12 @@ import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 import { FormEvent, useEffect, useState } from "react";
-import useGetHiragana from "@/application/useGetHiragana";
 import { confirmDialog } from "primereact/confirmdialog";
 import { fiftyTone } from "../application/fiftyTone";
 import React from "react";
 import Footer from "@/components/Footer";
 import ContactDialog from "@/components/ContactDialog";
-import { IFiftyTone } from '../application/fiftyTone';
+import { IFiftyTone } from "../application/fiftyTone";
 
 export default function Home() {
   const dropdownOption = [
@@ -44,53 +43,54 @@ export default function Home() {
 
   useEffect(() => {
     let list: string[] = [];
-    
-    if(toneType === 'mix') {
-      fiftyTone.forEach(i => {
+
+    if (toneType === "mix") {
+      fiftyTone.forEach((i) => {
         list.push(i.hiragana);
         list.push(i.katakana);
-      })
+      });
     } else {
       list = fiftyTone.map((i) => Object.values(i)[toneTypeEnum[toneType]]);
     }
     setQuestionList(list);
     setIsChecked(false);
     setCorrectAmount(0);
-    setInputAns('');
+    setInputAns("");
     setTotal(0);
   }, [toneType]);
 
   useEffect(() => {
-    getRandomQuestion();    
+    getRandomQuestion();
   }, [questionList]);
 
   const getRandomQuestion = () => {
-    const pronounceArr = []
+    const pronounceArr = [];
+    let target;
 
     const randomIndex = Math.floor(Math.random() * questionList?.length);
-    if(toneType === 'mix') {
+    if (toneType === "mix") {
       const questionText = questionList[randomIndex];
-      console.log('questionText', questionText);
-      const target = fiftyTone.find((i: IFiftyTone) => { return (i.hiragana === questionText) || (i.katakana === questionText)})
-      if(target) {
-        pronounceArr.push(target.pronounce);
-        if(target.pronounce2) {
-          pronounceArr.push(target.pronounce2);
-        }
-        setAnsArr(pronounceArr)
+      target = fiftyTone.find((i: IFiftyTone) => {
+        return i.hiragana === questionText || i.katakana === questionText;
+      });
+      if (target) {
         setRandomQuestion(questionList[randomIndex]);
       }
     } else {
       const questionText = questionList[randomIndex];
-      const target = fiftyTone.find((i: IFiftyTone) => i[toneType] === questionText)
-      if(target) {
-        pronounceArr.push(target.pronounce);
-        if(target.pronounce2) {
-          pronounceArr.push(target.pronounce2);
-        }
+      target = fiftyTone.find(
+        (i: IFiftyTone) => i[toneType] === questionText
+      );
+      if (target) {
         setRandomQuestion(questionList[randomIndex]);
-        setAnsArr(pronounceArr);
       }
+    }
+    if(target) {
+      pronounceArr.push(target.pronounce);
+      if (target.pronounce2) {
+        pronounceArr.push(target.pronounce2);
+      }
+      setAnsArr(pronounceArr);
     }
   };
 
@@ -187,7 +187,7 @@ export default function Home() {
           isCorrect ? (
             <p>
               <i className="pi pi-check" style={{ color: "green" }} />
-              {ansArr.join(', ')}
+              {ansArr.join(", ")}
             </p>
           ) : (
             <div className={styles["result-group"]}>
@@ -197,7 +197,7 @@ export default function Home() {
               </span>
               <span>
                 <i className="pi pi-check" style={{ color: "green" }} />
-                {ansArr.join(', ')}
+                {ansArr.join(", ")}
               </span>
             </div>
           )
@@ -209,15 +209,14 @@ export default function Home() {
         correct: {correctAmount}/{total}
       </p>
 
-
       <ContactDialog
         visible={isContactShow}
-        onHideDialog={()=>setIsContactShow(false)}
+        onHideDialog={() => setIsContactShow(false)}
       />
 
       <Footer
         onClickContact={() => {
-          setIsContactShow(true)
+          setIsContactShow(true);
         }}
       />
     </div>
