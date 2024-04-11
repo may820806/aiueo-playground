@@ -7,7 +7,7 @@ import { InputText } from "primereact/inputtext";
 import { FormEvent, useEffect, useState } from "react";
 import { confirmDialog } from "primereact/confirmdialog";
 import { fiftyTone } from "../application/fiftyTone";
-import React from "react";
+import React, { useRef } from "react";
 import Footer from "@/components/Footer";
 import ContactDialog from "@/components/ContactDialog";
 import { IFiftyTone } from "../application/fiftyTone";
@@ -24,6 +24,7 @@ export default function Home() {
   );
   const [ansArr, setAnsArr] = useState<string[]>([]);
   const [inputAns, setInputAns] = useState<string>("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const [invalidTipShow, setInvalidTipShow] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isCorrect, setIsCorrect] = useState<boolean>(false);
@@ -31,7 +32,6 @@ export default function Home() {
   const [total, setTotal] = useState<number>(1);
   const [randomQuestion, setRandomQuestion] = useState<string>("");
   const [questionList, setQuestionList] = useState<string[]>([]);
-
   const [isContactShow, setIsContactShow] = useState<boolean>(false);
 
   // const { getRandomQuestion, randomQuestion, ans } = useGetHiragana(toneType);
@@ -61,8 +61,19 @@ export default function Home() {
 
   useEffect(() => {
     getRandomQuestion();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionList]);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [isChecked]);
+
+  const handleKeyDown = (event: KeyboardEvent) => {
+    if (event.key === "Enter") {
+      clickNext();
+      window.removeEventListener("keydown", handleKeyDown);
+    }
+  };
 
   const getRandomQuestion = () => {
     const pronounceArr = [];
@@ -79,14 +90,12 @@ export default function Home() {
       }
     } else {
       const questionText = questionList[randomIndex];
-      target = fiftyTone.find(
-        (i: IFiftyTone) => i[toneType] === questionText
-      );
+      target = fiftyTone.find((i: IFiftyTone) => i[toneType] === questionText);
       if (target) {
         setRandomQuestion(questionList[randomIndex]);
       }
     }
-    if(target) {
+    if (target) {
       pronounceArr.push(target.pronounce);
       if (target.pronounce2) {
         pronounceArr.push(target.pronounce2);
@@ -117,6 +126,7 @@ export default function Home() {
       setIsCorrect(true);
       setCorrectAmount((prev) => prev + 1);
     }
+    window.addEventListener("keydown", handleKeyDown);
   };
 
   const clickNext = () => {
@@ -164,6 +174,7 @@ export default function Home() {
         <form onSubmit={onCheck} className={styles["input-group"]}>
           <InputText
             id="value"
+            ref={inputRef}
             name="value"
             value={inputAns}
             disabled={isChecked}
