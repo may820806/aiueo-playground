@@ -166,6 +166,7 @@ export default function Home() {
           property="og:description"
           content="This is aiueo あいうえお 五十音 playground, non-stop practice!"
         />
+        <meta property="og:image" content="/og-image.jpg" />
 
         <meta property="twitter:card" content="summary_large_image" />
         <meta
