@@ -14,11 +14,11 @@ interface Props {
   onHideDialog: () => void;
 }
 
-const ReplyDialog: React.FC<Props> = ({visible, onHideDialog}) => {
+const ContactDialog: React.FC<Props> = ({visible, onHideDialog}) => {
 
   const [loading, setLoading] = useState(false);
 
-  const ReplyDialogHeader = () => {
+  const ContactDialogHeader = () => {
     return (
       <h2>Contact me!</h2>
     )
@@ -77,7 +77,7 @@ const ReplyDialog: React.FC<Props> = ({visible, onHideDialog}) => {
   return (
     <React.Fragment>
       <Dialog
-        header={ReplyDialogHeader}
+        header={ContactDialogHeader}
         visible={visible}
         className={styles['contact-dialog']}
         onHide={onClickHideDialog}
@@ -134,4 +134,4 @@ const ReplyDialog: React.FC<Props> = ({visible, onHideDialog}) => {
   )
 }
 
-export default ReplyDialog;
+export default ContactDialog;

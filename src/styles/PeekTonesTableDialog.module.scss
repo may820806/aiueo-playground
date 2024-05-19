@@ -1,0 +1,32 @@
+.contact-dialog {
+  width: 50vw;
+}
+
+.peek-tones-dialog {
+  .peek-tones-table {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    > div {
+      width: 100px;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #ccc;
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .contact-dialog {
+    width: 90vw;
+  }
+
+  .peek-tones-dialog {
+    .peek-tones-table {
+      > div {
+        width: 50px;
+      }
+    }
+  }
+}

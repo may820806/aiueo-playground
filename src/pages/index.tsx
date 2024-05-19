@@ -11,6 +11,8 @@ import React, { useRef } from "react";
 import Footer from "@/components/Footer";
 import ContactDialog from "@/components/ContactDialog";
 import { IFiftyTone } from "../application/fiftyTone";
+import { Dialog } from "primereact/dialog";
+import PeekTonesTableDialog from "@/components/PeekTonesTableDialog";
 
 export default function Home() {
   const dropdownOption = [
@@ -33,8 +35,8 @@ export default function Home() {
   const [randomQuestion, setRandomQuestion] = useState<string>("");
   const [questionList, setQuestionList] = useState<string[]>([]);
   const [isContactShow, setIsContactShow] = useState<boolean>(false);
+  const [isPeekingShow, setIsPeekingShow] = useState<boolean>(false);
 
-  // const { getRandomQuestion, randomQuestion, ans } = useGetHiragana(toneType);
   enum toneTypeEnum {
     hiragana,
     katakana,
@@ -61,7 +63,6 @@ export default function Home() {
 
   useEffect(() => {
     getRandomQuestion();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionList]);
 
   useEffect(() => {
@@ -150,19 +151,34 @@ export default function Home() {
     <div className={styles["index-main"]}>
       <Head>
         <title>aiueo-playground</title>
-        <meta name="description" content="This is aiueo あいうえお 五十音 playground, non-stop practice!" />
+        <meta
+          name="description"
+          content="This is aiueo あいうえお 五十音 playground, non-stop practice!"
+        />
 
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://aiueo-playground.vercel.app/" />
-          <meta property="og:title" content="aiueo-playground" />
-          <meta property="og:description" content="This is aiueo あいうえお 五十音 playground, non-stop practice!" />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://aiueo-playground.vercel.app/"
+        />
+        <meta property="og:title" content="aiueo-playground" />
+        <meta
+          property="og:description"
+          content="This is aiueo あいうえお 五十音 playground, non-stop practice!"
+        />
 
-          <meta property="twitter:card" content="summary_large_image" />
-          <meta property="twitter:url" content="https://aiueo-playground.vercel.app/" />
-          <meta property="twitter:title" content="aiueo-playground" />
-          <meta property="twitter:description" content="This is aiueo あいうえお 五十音 playground, non-stop practice!" />
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta
+          property="twitter:url"
+          content="https://aiueo-playground.vercel.app/"
+        />
+        <meta property="twitter:title" content="aiueo-playground" />
+        <meta
+          property="twitter:description"
+          content="This is aiueo あいうえお 五十音 playground, non-stop practice!"
+        />
 
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -232,6 +248,12 @@ export default function Home() {
         correct: {correctAmount}/{total}
       </p>
 
+      <Button className={styles['peek-button']} label="Peek all tones" severity="info" outlined onClick={() => setIsPeekingShow(true)} />
+
+      <PeekTonesTableDialog
+        visible={isPeekingShow}
+        onHideDialog={() => setIsPeekingShow(false)}
+      />
       <ContactDialog
         visible={isContactShow}
         onHideDialog={() => setIsContactShow(false)}
